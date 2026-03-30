@@ -1,30 +1,16 @@
-# models.py
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
-# Model definitions for the AI Dataset Simulator
+db = SQLAlchemy()
 
-class Model:
-    def __init__(self, name, version):
-        self.name = name
-        self.version = version
-        self.data = []
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(200))
 
-    def add_data(self, data_point):
-        self.data.append(data_point)
-
-    def get_data(self):
-        return self.data
-
-class Dataset:
-    def __init__(self, model):
-        self.model = model
-        self.records = []
-
-    def add_record(self, record):
-        self.records.append(record)
-
-    def get_records(self):
-        return self.records
-
-# Example usage:
-# model = Model('MyModel', '1.0')
-# dataset = Dataset(model)
+class Dataset(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(200))
+    data = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
